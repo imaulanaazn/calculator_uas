@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
+import 'options_screen.dart';
 
 class Calculator extends StatefulWidget {
   const Calculator({super.key});
@@ -34,7 +35,6 @@ class _CalculatorState extends State<Calculator> {
     ".",
     "=",
     "C",
-    "Settings",
   ];
 
   @override
@@ -45,34 +45,47 @@ class _CalculatorState extends State<Calculator> {
         children: [
           SizedBox(
             height: MediaQuery.of(context).size.height / 3,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
+            child: Row(
               children: [
-                Container(
-                  padding: EdgeInsets.all(20),
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    userInput,
-                    style: TextStyle(fontSize: 32, color: Colors.white),
+                IconButton(
+                  icon: Icon(Icons.settings, color: Colors.white),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => OptionsScreen()),
+                    );
+                  },
+                ),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(20),
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          userInput,
+                          style: TextStyle(fontSize: 32, color: Colors.white),
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          result,
+                          style: TextStyle(
+                              fontSize: 48,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    result,
-                    style: TextStyle(
-                        fontSize: 48,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
-                  ),
-                )
               ],
             ),
           ),
-          Divider(
-            color: Colors.white,
-          ),
+          Divider(color: Colors.white),
           Expanded(
             child: Container(
               padding: EdgeInsets.all(10),
@@ -132,8 +145,7 @@ class _CalculatorState extends State<Calculator> {
         text == "%" ||
         text == "C" ||
         text == "(" ||
-        text == ")" ||
-        text == "Settings") {
+        text == ")") {
       return Color.fromARGB(255, 252, 100, 100);
     }
     return Colors.white;
@@ -171,26 +183,6 @@ class _CalculatorState extends State<Calculator> {
         userInput = (double.parse(userInput) / 100).toString();
         result = userInput;
       }
-    } else if (text == "Settings") {
-      // Placeholder for settings button functionality
-      // You can replace this with actual functionality as needed
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text("Settings"),
-            content: Text("Settings options will be here."),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text("Close"),
-              ),
-            ],
-          );
-        },
-      );
     } else {
       userInput = userInput + text;
     }
